@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - TravelHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .profile-page { padding: 2rem 0; min-height: 60vh; }
+        .profile-layout { display: grid; grid-template-columns: 300px 1fr; gap: 2rem; }
+        .profile-sidebar { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: fit-content; }
+        .profile-avatar-large { width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 1rem; display: block; border: 4px solid var(--gray-200); }
+        .profile-section { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 1.5rem; }
+
+        @media (max-width: 768px) {
+            .profile-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">TravelHub</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="search.html">Hotels</a></li>
+                    <li><a href="#" class="hidden" id="my-bookings-link">My Bookings</a></li>
+                    <li id="auth-buttons">
+                        <a href="signin.html" class="btn btn-outline">Sign In</a>
+                    </li>
+                    <li class="user-menu hidden" id="user-menu">
+                        <img src="https://i.pravatar.cc/150?img=33" alt="User" class="user-avatar" id="user-avatar">
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Profile Page -->
+    <div class="profile-page">
+        <div class="container">
+            <h1 style="margin-bottom: 2rem;">My Profile</h1>
+
+            <div class="profile-layout">
+                <!-- Sidebar -->
+                <aside class="profile-sidebar">
+                    <img src="https://i.pravatar.cc/150?img=33" alt="Profile" class="profile-avatar-large" id="profile-avatar">
+                    <h3 id="profile-name" style="text-align: center; margin-bottom: 0.5rem;"></h3>
+                    <p id="profile-email" style="text-align: center; color: var(--gray-600); font-size: 0.9rem; margin-bottom: 1.5rem;"></p>
+
+                    <nav style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <a href="profile.html" class="btn btn-primary btn-full">My Profile</a>
+                        <a href="bookings.html" class="btn btn-secondary btn-full">My Bookings</a>
+                        <a href="my-reviews.html" class="btn btn-secondary btn-full">My Reviews</a>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <div>
+                    <!-- Personal Information -->
+                    <div class="profile-section">
+                        <h2 style="margin-bottom: 1.5rem;">Personal Information</h2>
+                        <form id="profile-form">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group-full">
+                                    <label>First Name</label>
+                                    <input type="text" id="first-name" required>
+                                </div>
+                                <div class="form-group-full">
+                                    <label>Last Name</label>
+                                    <input type="text" id="last-name" required>
+                                </div>
+                            </div>
+                            <div class="form-group-full">
+                                <label>Email Address</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            <div class="form-group-full">
+                                <label>Phone Number</label>
+                                <input type="tel" id="phone">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                        <div id="success-message" class="hidden" style="background: #D1FAE5; color: #065F46; padding: 0.75rem; border-radius: 6px; margin-top: 1rem;">
+                            Profile updated successfully!
+                        </div>
+                    </div>
+
+                    <!-- Change Password -->
+                    <div class="profile-section">
+                        <h2 style="margin-bottom: 1.5rem;">Change Password</h2>
+                        <form id="password-form">
+                            <div class="form-group-full">
+                                <label>Current Password</label>
+                                <input type="password" id="current-password" required>
+                            </div>
+                            <div class="form-group-full">
+                                <label>New Password</label>
+                                <input type="password" id="new-password" required minlength="8">
+                            </div>
+                            <div class="form-group-full">
+                                <label>Confirm New Password</label>
+                                <input type="password" id="confirm-password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                        </form>
+                        <div id="password-error" class="hidden" style="background: #FEE2E2; color: #991B1B; padding: 0.75rem; border-radius: 6px; margin-top: 1rem;"></div>
+                        <div id="password-success" class="hidden" style="background: #D1FAE5; color: #065F46; padding: 0.75rem; border-radius: 6px; margin-top: 1rem;">
+                            Password updated successfully!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!isLoggedIn()) {
+                alert('Please sign in to view your profile');
+                window.location.href = 'signin.html';
+                return;
+            }
+
+            const user = getCurrentUser();
+
+            // Populate profile
+            document.getElementById('profile-avatar').src = user.profile_photo;
+            document.getElementById('profile-name').textContent = `${user.first_name} ${user.last_name}`;
+            document.getElementById('profile-email').textContent = user.email;
+
+            // Populate form
+            document.getElementById('first-name').value = user.first_name;
+            document.getElementById('last-name').value = user.last_name;
+            document.getElementById('email').value = user.email;
+            document.getElementById('phone').value = user.phone || '';
+
+            // Handle profile form submission
+            document.getElementById('profile-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const updatedUser = {
+                    ...user,
+                    first_name: document.getElementById('first-name').value,
+                    last_name: document.getElementById('last-name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value
+                };
+
+                localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+
+                // Show success message
+                const successMsg = document.getElementById('success-message');
+                successMsg.classList.remove('hidden');
+                setTimeout(() => successMsg.classList.add('hidden'), 3000);
+
+                // Update displayed name
+                document.getElementById('profile-name').textContent = `${updatedUser.first_name} ${updatedUser.last_name}`;
+            });
+
+            // Handle password form submission
+            document.getElementById('password-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const currentPassword = document.getElementById('current-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+
+                const errorDiv = document.getElementById('password-error');
+                const successDiv = document.getElementById('password-success');
+
+                errorDiv.classList.add('hidden');
+                successDiv.classList.add('hidden');
+
+                if (newPassword !== confirmPassword) {
+                    errorDiv.textContent = 'New passwords do not match';
+                    errorDiv.classList.remove('hidden');
+                    return;
+                }
+
+                if (newPassword.length < 8) {
+                    errorDiv.textContent = 'Password must be at least 8 characters';
+                    errorDiv.classList.remove('hidden');
+                    return;
+                }
+
+                // In a real app, we would verify current password
+                // For demo, just show success
+                successDiv.classList.remove('hidden');
+                this.reset();
+
+                setTimeout(() => successDiv.classList.add('hidden'), 3000);
+            });
+        });
+    </script>
+</body>
+</html>

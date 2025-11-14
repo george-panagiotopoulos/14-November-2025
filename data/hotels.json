@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "name": "Grand Hotel Paris",
+    "destination_id": 1,
+    "location": "Paris, France",
+    "address": "123 Champs-Élysées, 75008 Paris",
+    "star_rating": 5,
+    "guest_rating": 9.2,
+    "review_count": 342,
+    "price_per_night": 250,
+    "hotel_type": "hotel",
+    "images": [
+      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800",
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800",
+      "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800"
+    ],
+    "amenities": ["WiFi", "Pool", "Spa", "Restaurant", "Gym", "Parking", "Room Service"],
+    "description": "Experience Parisian luxury at its finest in our 5-star establishment. Located in the heart of Paris, the Grand Hotel Paris offers breathtaking views of the Eiffel Tower, world-class dining, and impeccable service that has delighted guests for over a century.",
+    "check_in_time": "15:00",
+    "check_out_time": "12:00",
+    "cancellation_policy": "Free cancellation up to 48 hours before check-in. Cancellations made within 48 hours will incur a charge of one night's stay."
+  },
+  {
+    "id": 2,
+    "name": "Sakura Boutique Hotel",
+    "destination_id": 2,
+    "location": "Tokyo, Japan",
+    "address": "456 Shibuya, Tokyo 150-0002",
+    "star_rating": 4,
+    "guest_rating": 8.8,
+    "review_count": 256,
+    "price_per_night": 180,
+    "hotel_type": "hotel",
+    "images": [
+      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=800",
+      "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800",
+      "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800"
+    ],
+    "amenities": ["WiFi", "Restaurant", "Bar", "Concierge", "Air Conditioning"],
+    "description": "A perfect blend of traditional Japanese hospitality and modern comfort. Located in vibrant Shibuya, our boutique hotel offers easy access to Tokyo's best shopping, dining, and entertainment.",
+    "check_in_time": "15:00",
+    "check_out_time": "11:00",
+    "cancellation_policy": "Free cancellation up to 24 hours before check-in."
+  },
+  {
+    "id": 3,
+    "name": "Manhattan Plaza Hotel",
+    "destination_id": 3,
+    "location": "New York, USA",
+    "address": "789 5th Avenue, New York, NY 10022",
+    "star_rating": 4,
+    "guest_rating": 8.5,
+    "review_count": 512,
+    "price_per_night": 280,
+    "hotel_type": "hotel",
+    "images": [
+      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800",
+      "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=800",
+      "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800"
+    ],
+    "amenities": ["WiFi", "Gym", "Business Center", "Restaurant", "Bar", "Valet Parking"],
+    "description": "Stay in the heart of Manhattan with stunning views of Central Park. Our hotel combines classic New York elegance with modern amenities, perfect for both business and leisure travelers.",
+    "check_in_time": "16:00",
+    "check_out_time": "12:00",
+    "cancellation_policy": "Free cancellation up to 72 hours before check-in."
+  },
+  {
+    "id": 4,
+    "name": "Barcelona Beach Resort",
+    "destination_id": 4,
+    "location": "Barcelona, Spain",
+    "address": "321 Passeig Marítim, 08003 Barcelona",
+    "star_rating": 5,
+    "guest_rating": 9.0,
+    "review_count": 428,
+    "price_per_night": 195,
+    "hotel_type": "resort",
+    "images": [
+      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800",
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800",
+      "https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=800"
+    ],
+    "amenities": ["WiFi", "Pool", "Beach Access", "Spa", "Restaurant", "Bar", "Kids Club"],
+    "description": "Beachfront luxury resort offering the perfect Mediterranean escape. Enjoy direct beach access, infinity pools, and authentic Catalan cuisine while exploring the vibrant city of Barcelona.",
+    "check_in_time": "14:00",
+    "check_out_time": "12:00",
+    "cancellation_policy": "Free cancellation up to 7 days before check-in."
+  },
+  {
+    "id": 5,
+    "name": "Bali Paradise Villa",
+    "destination_id": 5,
+    "location": "Bali, Indonesia",
+    "address": "555 Jalan Raya Ubud, Ubud 80571",
+    "star_rating": 4,
+    "guest_rating": 9.4,
+    "review_count": 189,
+    "price_per_night": 120,
+    "hotel_type": "resort",
+    "images": [
+      "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=800",
+      "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=800",
+      "https://images.unsplash.com/photo-1586611292717-f828b167408c?w=800"
+    ],
+    "amenities": ["WiFi", "Pool", "Spa", "Yoga Classes", "Restaurant", "Airport Shuttle"],
+    "description": "Tranquil tropical villas surrounded by lush rice paddies and jungle. Experience authentic Balinese culture with modern luxury amenities, spa treatments, and daily yoga sessions.",
+    "check_in_time": "14:00",
+    "check_out_time": "11:00",
+    "cancellation_policy": "Free cancellation up to 48 hours before check-in."
+  },
+  {
+    "id": 6,
+    "name": "Dubai Luxury Suites",
+    "destination_id": 6,
+    "location": "Dubai, UAE",
+    "address": "888 Sheikh Zayed Road, Dubai",
+    "star_rating": 5,
+    "guest_rating": 8.9,
+    "review_count": 621,
+    "price_per_night": 320,
+    "hotel_type": "hotel",
+    "images": [
+      "https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800",
+      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
+      "https://images.unsplash.com/photo-1596436889106-be35e843f974?w=800"
+    ],
+    "amenities": ["WiFi", "Pool", "Spa", "Multiple Restaurants", "Gym", "Valet Parking", "Butler Service"],
+    "description": "Ultra-luxury suites with panoramic views of the Dubai skyline and Burj Khalifa. Indulge in world-class dining, shopping, and entertainment, all within walking distance.",
+    "check_in_time": "15:00",
+    "check_out_time": "12:00",
+    "cancellation_policy": "Free cancellation up to 48 hours before check-in."
+  }
+]

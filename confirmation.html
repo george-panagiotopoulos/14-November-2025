@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - TravelHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .confirmation-page { padding: 4rem 0; min-height: 60vh; }
+        .confirmation-card { max-width: 800px; margin: 0 auto; background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; }
+        .success-icon { font-size: 5rem; margin-bottom: 1rem; }
+        .booking-ref { display: inline-block; background: var(--gray-100); padding: 0.75rem 2rem; border-radius: 8px; font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; margin: 1.5rem 0; color: var(--primary-color); }
+        .booking-details { text-align: left; background: var(--gray-50); padding: 2rem; border-radius: 12px; margin: 2rem 0; }
+        .detail-row { display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--gray-200); }
+        .detail-row:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">TravelHub</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="search.html">Hotels</a></li>
+                    <li><a href="#" class="hidden" id="my-bookings-link">My Bookings</a></li>
+                    <li id="auth-buttons">
+                        <a href="signin.html" class="btn btn-outline">Sign In</a>
+                    </li>
+                    <li class="user-menu hidden" id="user-menu">
+                        <img src="https://i.pravatar.cc/150?img=33" alt="User" class="user-avatar" id="user-avatar">
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Confirmation Page -->
+    <div class="confirmation-page">
+        <div class="container">
+            <div class="confirmation-card">
+                <div class="success-icon">✓</div>
+                <h1 style="color: var(--success-color); margin-bottom: 0.5rem;">Booking Confirmed!</h1>
+                <p style="font-size: 1.1rem; color: var(--gray-600); margin-bottom: 1rem;">Your reservation has been successfully completed</p>
+
+                <div class="booking-ref" id="booking-reference">XXXXXXXX</div>
+
+                <p style="color: var(--gray-600); margin-bottom: 2rem;">Please save this reference number for your records</p>
+
+                <div class="booking-details">
+                    <h3 style="margin-bottom: 1rem;">Booking Details</h3>
+                    <div class="detail-row">
+                        <span style="color: var(--gray-600);">Hotel</span>
+                        <strong id="detail-hotel"></strong>
+                    </div>
+                    <div class="detail-row">
+                        <span style="color: var(--gray-600);">Location</span>
+                        <strong id="detail-location"></strong>
+                    </div>
+                    <div class="detail-row">
+                        <span style="color: var(--gray-600);">Check-in</span>
+                        <strong id="detail-checkin"></strong>
+                    </div>
+                    <div class="detail-row">
+                        <span style="color: var(--gray-600);">Check-out</span>
+                        <strong id="detail-checkout"></strong>
+                    </div>
+                    <div class="detail-row">
+                        <span style="color: var(--gray-600);">Guests</span>
+                        <strong id="detail-guests"></strong>
+                    </div>
+                    <div class="detail-row">
+                        <span style="color: var(--gray-600);">Room Type</span>
+                        <strong id="detail-room"></strong>
+                    </div>
+                    <div class="detail-row">
+                        <span style="color: var(--gray-600);">Total Paid</span>
+                        <strong id="detail-total" style="color: var(--primary-color); font-size: 1.25rem;"></strong>
+                    </div>
+                </div>
+
+                <p style="background: #DBEAFE; padding: 1rem; border-radius: 8px; color: #1E40AF; margin-bottom: 2rem;">
+                    📧 A confirmation email has been sent to <strong id="guest-email"></strong>
+                </p>
+
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="bookings.html" class="btn btn-primary">View My Bookings</a>
+                    <a href="index.html" class="btn btn-secondary">Return to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookingStr = sessionStorage.getItem('completedBooking');
+
+            if (!bookingStr) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const booking = JSON.parse(bookingStr);
+
+            document.getElementById('booking-reference').textContent = booking.booking_reference;
+            document.getElementById('detail-hotel').textContent = booking.hotel_name;
+            document.getElementById('detail-location').textContent = booking.hotel_location;
+            document.getElementById('detail-checkin').textContent = formatDate(booking.check_in);
+            document.getElementById('detail-checkout').textContent = formatDate(booking.check_out);
+            document.getElementById('detail-guests').textContent = booking.guests + ' guest' + (booking.guests > 1 ? 's' : '');
+            document.getElementById('detail-room').textContent = booking.room_type_name;
+            document.getElementById('detail-total').textContent = '$' + Math.round(booking.total);
+            document.getElementById('guest-email').textContent = booking.guest_email;
+
+            // Clear the completed booking from session after displaying
+            // Keep it for now so user can refresh the page
+        });
+    </script>
+</body>
+</html>

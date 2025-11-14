@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Hotels - TravelHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .search-page { padding: 2rem 0; }
+        .search-layout { display: grid; grid-template-columns: 280px 1fr; gap: 2rem; }
+        .filters-sidebar { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); height: fit-content; position: sticky; top: 100px; }
+        .filter-section { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-200); }
+        .filter-section:last-child { border-bottom: none; }
+        .filter-section h3 { font-size: 1rem; margin-bottom: 1rem; }
+        .filter-option { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .hotel-list .card { margin-bottom: 1.5rem; display: grid; grid-template-columns: 300px 1fr; gap: 1.5rem; }
+        .hotel-list .card-image { height: 100%; min-height: 200px; }
+
+        @media (max-width: 968px) {
+            .search-layout { grid-template-columns: 1fr; }
+            .filters-sidebar { position: static; }
+            .hotel-list .card { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">TravelHub</a>
+                <ul class="nav-links">
+                    <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+                    <li><a href="search.html" data-i18n="nav.hotels">Hotels</a></li>
+                    <li><a href="#" class="hidden" id="my-bookings-link" data-i18n="nav.myBookings">My Bookings</a></li>
+                    <li id="auth-buttons">
+                        <a href="signin.html" class="btn btn-outline" data-i18n="nav.signIn">Sign In</a>
+                    </li>
+                    <li class="user-menu hidden" id="user-menu">
+                        <img src="https://i.pravatar.cc/150?img=33" alt="User" class="user-avatar" id="user-avatar">
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Search Page -->
+    <div class="search-page">
+        <div class="container">
+            <div class="search-layout">
+                <!-- Filters Sidebar -->
+                <aside class="filters-sidebar">
+                    <h2 style="margin-bottom: 1.5rem;" data-i18n="search.filters">Filters</h2>
+
+                    <div class="filter-section">
+                        <h3 data-i18n="search.pricePerNight">Price per night</h3>
+                        <div style="margin-bottom: 0.5rem;">
+                            <input type="range" id="price-range" min="0" max="500" value="500" style="width: 100%;">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--gray-600);">
+                                <span>$0</span>
+                                <span id="price-value">$500+</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3 data-i18n="search.starRating">Star Rating</h3>
+                        <div class="filter-option">
+                            <input type="checkbox" id="star-5" value="5">
+                            <label for="star-5">★★★★★</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="star-4" value="4">
+                            <label for="star-4">★★★★</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="star-3" value="3">
+                            <label for="star-3">★★★</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3 data-i18n="search.hotelType">Hotel Type</h3>
+                        <div class="filter-option">
+                            <input type="checkbox" class="hotel-type-filter" value="hotel" id="type-hotel">
+                            <label for="type-hotel" data-i18n="search.hotel">Hotel</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="hotel-type-filter" value="resort" id="type-resort">
+                            <label for="type-resort" data-i18n="search.resort">Resort</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3 data-i18n="search.amenities">Amenities</h3>
+                        <div class="filter-option">
+                            <input type="checkbox" class="amenity-filter" value="WiFi">
+                            <label>WiFi</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="amenity-filter" value="Pool">
+                            <label>Pool</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="amenity-filter" value="Spa">
+                            <label>Spa</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" class="amenity-filter" value="Parking">
+                            <label>Parking</label>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-secondary btn-full" id="clear-filters" data-i18n="search.clearFilters">Clear All Filters</button>
+                </aside>
+
+                <!-- Results -->
+                <div>
+                    <div class="results-header">
+                        <h2 id="results-count" data-i18n="search.loadingHotels">Loading hotels...</h2>
+                        <select id="sort-by" style="padding: 0.5rem; border: 2px solid var(--gray-200); border-radius: 6px;">
+                            <option value="popularity" data-i18n="search.popularity">Sort by: Popularity</option>
+                            <option value="price-low" data-i18n="search.priceLowHigh">Price: Low to High</option>
+                            <option value="price-high" data-i18n="search.priceHighLow">Price: High to Low</option>
+                            <option value="rating" data-i18n="search.guestRating">Guest Rating</option>
+                        </select>
+                    </div>
+
+                    <div class="hotel-list" id="hotels-list">
+                        <!-- Hotels will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/search.js"></script>
+</body>
+</html>

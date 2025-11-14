@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - TravelHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .bookings-page { padding: 2rem 0; min-height: 60vh; }
+        .tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; border-bottom: 2px solid var(--gray-200); }
+        .tab { padding: 0.75rem 1.5rem; background: none; border: none; font-size: 1rem; font-weight: 600; color: var(--gray-600); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.3s; }
+        .tab.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+        .booking-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 1.5rem; display: grid; grid-template-columns: 250px 1fr auto; gap: 1.5rem; align-items: center; }
+        .booking-image { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
+        .booking-actions { display: flex; flex-direction: column; gap: 0.75rem; }
+        .status-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+        .status-confirmed { background: #D1FAE5; color: #065F46; }
+        .status-cancelled { background: #FEE2E2; color: #991B1B; }
+        .status-completed { background: #DBEAFE; color: #1E40AF; }
+        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--gray-600); }
+
+        @media (max-width: 768px) {
+            .booking-card { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">TravelHub</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="search.html">Hotels</a></li>
+                    <li><a href="#" class="hidden" id="my-bookings-link">My Bookings</a></li>
+                    <li id="auth-buttons">
+                        <a href="signin.html" class="btn btn-outline">Sign In</a>
+                    </li>
+                    <li class="user-menu hidden" id="user-menu">
+                        <img src="https://i.pravatar.cc/150?img=33" alt="User" class="user-avatar" id="user-avatar">
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Bookings Page -->
+    <div class="bookings-page">
+        <div class="container">
+            <h1 style="margin-bottom: 2rem;">My Bookings</h1>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" data-tab="upcoming">Upcoming</button>
+                <button class="tab" data-tab="past">Past</button>
+                <button class="tab" data-tab="cancelled">Cancelled</button>
+            </div>
+
+            <!-- Bookings List -->
+            <div id="bookings-container">
+                <!-- Bookings will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let allBookings = [];
+        let currentTab = 'upcoming';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!isLoggedIn()) {
+                alert('Please sign in to view your bookings');
+                window.location.href = 'signin.html';
+                return;
+            }
+
+            // Load bookings
+            allBookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
+
+            // Setup tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTab = this.dataset.tab;
+                    renderBookings();
+                });
+            });
+
+            renderBookings();
+        });
+
+        function renderBookings() {
+            const container = document.getElementById('bookings-container');
+            const today = new Date().toISOString().split('T')[0];
+
+            let filteredBookings = allBookings.filter(booking => {
+                if (currentTab === 'upcoming') {
+                    return booking.status === 'confirmed' && booking.check_in >= today;
+                } else if (currentTab === 'past') {
+                    return booking.status === 'confirmed' && booking.check_out < today;
+                } else if (currentTab === 'cancelled') {
+                    return booking.status === 'cancelled';
+                }
+                return false;
+            });
+
+            if (filteredBookings.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">📅</div>
+                        <h3>No ${currentTab} bookings</h3>
+                        <p style="margin-top: 0.5rem;">Your ${currentTab} bookings will appear here</p>
+                        <a href="search.html" class="btn btn-primary" style="margin-top: 1.5rem;">Find Hotels</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+
+            filteredBookings.forEach(booking => {
+                const card = document.createElement('div');
+                card.className = 'booking-card';
+
+                const statusClass = booking.status === 'confirmed' ? 'status-confirmed' :
+                                  booking.status === 'cancelled' ? 'status-cancelled' : 'status-completed';
+
+                const canCancel = currentTab === 'upcoming' && booking.status === 'confirmed';
+                const canReview = currentTab === 'past' && !hasReviewForBooking(booking.booking_reference);
+
+                card.innerHTML = `
+                    <img src="${booking.hotel_image}" alt="${booking.hotel_name}" class="booking-image">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                            <span class="status-badge ${statusClass}">${booking.status.toUpperCase()}</span>
+                            <span style="color: var(--gray-600); font-size: 0.9rem;">Ref: ${booking.booking_reference}</span>
+                        </div>
+                        <h3 style="margin-bottom: 0.25rem;">${booking.hotel_name}</h3>
+                        <p style="color: var(--gray-600); margin-bottom: 1rem;">${booking.hotel_location}</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; font-size: 0.9rem;">
+                            <div>
+                                <div style="color: var(--gray-600);">Check-in</div>
+                                <strong>${formatDate(booking.check_in)}</strong>
+                            </div>
+                            <div>
+                                <div style="color: var(--gray-600);">Check-out</div>
+                                <strong>${formatDate(booking.check_out)}</strong>
+                            </div>
+                            <div>
+                                <div style="color: var(--gray-600);">Guests</div>
+                                <strong>${booking.guests} guest${booking.guests > 1 ? 's' : ''}</strong>
+                            </div>
+                            <div>
+                                <div style="color: var(--gray-600);">Total</div>
+                                <strong style="color: var(--primary-color);">$${Math.round(booking.total)}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="booking-actions">
+                        <a href="hotel.html?id=${booking.hotel_id}" class="btn btn-secondary" style="text-align: center;">View Hotel</a>
+                        ${canCancel ? `<button class="btn btn-outline" style="border-color: var(--danger-color); color: var(--danger-color);" onclick="cancelBooking('${booking.booking_reference}')">Cancel Booking</button>` : ''}
+                        ${canReview ? `<a href="write-review.html?booking=${booking.booking_reference}" class="btn btn-primary" style="text-align: center;">Write Review</a>` : ''}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function cancelBooking(reference) {
+            if (!confirm('Are you sure you want to cancel this booking?')) {
+                return;
+            }
+
+            allBookings = allBookings.map(booking => {
+                if (booking.booking_reference === reference) {
+                    return { ...booking, status: 'cancelled' };
+                }
+                return booking;
+            });
+
+            localStorage.setItem('userBookings', JSON.stringify(allBookings));
+            renderBookings();
+
+            alert('Booking cancelled successfully. Refund will be processed within 5-7 business days.');
+        }
+
+        function hasReviewForBooking(reference) {
+            // Check if user has already reviewed this booking
+            const reviews = JSON.parse(localStorage.getItem('userReviews') || '[]');
+            return reviews.some(r => r.booking_reference === reference);
+        }
+
+        window.cancelBooking = cancelBooking;
+    </script>
+</body>
+</html>

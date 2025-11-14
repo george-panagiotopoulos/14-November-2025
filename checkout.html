@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - TravelHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .checkout-page { padding: 2rem 0; }
+        .checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: 2rem; }
+        .progress-indicator { display: flex; justify-content: center; align-items: center; margin-bottom: 2rem; }
+        .progress-step { display: flex; align-items: center; }
+        .step-circle { width: 40px; height: 40px; border-radius: 50%; background: var(--gray-300); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .step-circle.active { background: var(--primary-color); }
+        .step-circle.completed { background: var(--success-color); }
+        .step-line { width: 80px; height: 2px; background: var(--gray-300); margin: 0 0.5rem; }
+        .checkout-section { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 1.5rem; }
+        .booking-summary { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: sticky; top: 100px; }
+
+        @media (max-width: 968px) {
+            .checkout-layout { grid-template-columns: 1fr; }
+            .booking-summary { position: static; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">TravelHub</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="search.html">Hotels</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Checkout Page -->
+    <div class="checkout-page">
+        <div class="container">
+            <!-- Progress Indicator -->
+            <div class="progress-indicator">
+                <div class="progress-step">
+                    <div class="step-circle active">1</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="progress-step">
+                    <div class="step-circle">2</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="progress-step">
+                    <div class="step-circle">3</div>
+                </div>
+            </div>
+
+            <div class="checkout-layout">
+                <!-- Main Content -->
+                <div>
+                    <!-- Guest Details -->
+                    <div class="checkout-section">
+                        <h2 style="margin-bottom: 1.5rem;">Guest Details</h2>
+                        <form id="checkout-form">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group-full">
+                                    <label>First Name</label>
+                                    <input type="text" id="guest-first-name" required>
+                                </div>
+                                <div class="form-group-full">
+                                    <label>Last Name</label>
+                                    <input type="text" id="guest-last-name" required>
+                                </div>
+                            </div>
+                            <div class="form-group-full">
+                                <label>Email Address</label>
+                                <input type="email" id="guest-email" required>
+                            </div>
+                            <div class="form-group-full">
+                                <label>Phone Number</label>
+                                <input type="tel" id="guest-phone" required>
+                            </div>
+                            <div class="form-group-full">
+                                <label>Special Requests (Optional)</label>
+                                <textarea id="special-requests" rows="3" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 6px; font-family: inherit; resize: vertical;" placeholder="Any special requirements?"></textarea>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Payment Information -->
+                    <div class="checkout-section">
+                        <h2 style="margin-bottom: 1.5rem;">Payment Information</h2>
+                        <div class="form-group-full">
+                            <label>Card Number</label>
+                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                            <div class="form-group-full">
+                                <label>Expiry Month</label>
+                                <select id="card-month" required>
+                                    <option value="">MM</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                    <option value="05">05</option>
+                                    <option value="06">06</option>
+                                    <option value="07">07</option>
+                                    <option value="08">08</option>
+                                    <option value="09">09</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                            </div>
+                            <div class="form-group-full">
+                                <label>Expiry Year</label>
+                                <select id="card-year" required>
+                                    <option value="">YYYY</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
+                                </select>
+                            </div>
+                            <div class="form-group-full">
+                                <label>CVV</label>
+                                <input type="text" id="card-cvv" placeholder="123" maxlength="3" required>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem; justify-content: center;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" style="height: 30px;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style="height: 30px;">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex" style="height: 30px;">
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-full" id="complete-booking-btn" style="padding: 1rem; font-size: 1.1rem;">Complete Booking</button>
+                    <p style="text-align: center; color: var(--gray-600); margin-top: 1rem; font-size: 0.9rem;">🔒 Your payment information is secure and encrypted</p>
+                </div>
+
+                <!-- Booking Summary -->
+                <aside>
+                    <div class="booking-summary">
+                        <h3 style="margin-bottom: 1rem;">Booking Summary</h3>
+                        <img src="" alt="Hotel" id="summary-image" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem;">
+                        <h4 id="summary-hotel-name" style="margin-bottom: 0.25rem;"></h4>
+                        <p id="summary-location" style="color: var(--gray-600); font-size: 0.9rem; margin-bottom: 1rem;"></p>
+
+                        <div style="background: var(--gray-50); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                <span>Check-in:</span>
+                                <strong id="summary-checkin"></strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                <span>Check-out:</span>
+                                <strong id="summary-checkout"></strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                                <span>Guests:</span>
+                                <strong id="summary-guests"></strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                                <span>Room:</span>
+                                <strong id="summary-room"></strong>
+                            </div>
+                        </div>
+
+                        <div style="padding: 1rem 0; border-top: 2px solid var(--gray-200); border-bottom: 2px solid var(--gray-200);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span id="summary-calculation"></span>
+                                <span id="summary-subtotal"></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; color: var(--gray-600); font-size: 0.9rem;">
+                                <span>Taxes & fees</span>
+                                <span id="summary-taxes"></span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; margin-top: 1rem; font-size: 1.25rem; font-weight: 700;">
+                            <span>Total</span>
+                            <span id="summary-total" style="color: var(--primary-color);"></span>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - TravelHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">TravelHub</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="search.html">Hotels</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sign In Form -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Welcome Back!</h2>
+            <form id="signin-form">
+                <div class="form-group-full">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group-full">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="remember">
+                    <label for="remember" style="font-weight: normal; margin: 0;">Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="register.html">Register now</a></p>
+                    <p><a href="#">Forgot your password?</a></p>
+                </div>
+            </form>
+            <div id="error-message" class="hidden" style="background: #FEE2E2; color: #991B1B; padding: 0.75rem; border-radius: 6px; margin-top: 1rem; text-align: center;"></div>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: var(--gray-50); border-radius: 6px; font-size: 0.9rem;">
+                <strong>Demo Account:</strong><br>
+                Email: demo@example.com<br>
+                Password: password123
+            </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

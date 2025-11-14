@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reviews - TravelHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .reviews-page { padding: 2rem 0; min-height: 60vh; }
+        .empty-state { text-align: center; padding: 4rem 2rem; color: var(--gray-600); }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">TravelHub</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="search.html">Hotels</a></li>
+                    <li><a href="#" class="hidden" id="my-bookings-link">My Bookings</a></li>
+                    <li id="auth-buttons">
+                        <a href="signin.html" class="btn btn-outline">Sign In</a>
+                    </li>
+                    <li class="user-menu hidden" id="user-menu">
+                        <img src="https://i.pravatar.cc/150?img=33" alt="User" class="user-avatar" id="user-avatar">
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- My Reviews Page -->
+    <div class="reviews-page">
+        <div class="container">
+            <h1 style="margin-bottom: 2rem;">My Reviews</h1>
+
+            <div id="reviews-container">
+                <!-- Reviews will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!isLoggedIn()) {
+                alert('Please sign in to view your reviews');
+                window.location.href = 'signin.html';
+                return;
+            }
+
+            const reviews = JSON.parse(localStorage.getItem('userReviews') || '[]');
+            const container = document.getElementById('reviews-container');
+
+            if (reviews.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">✍️</div>
+                        <h3>No reviews yet</h3>
+                        <p style="margin-top: 0.5rem;">Share your experiences with other travelers</p>
+                        <a href="bookings.html" class="btn btn-primary" style="margin-top: 1.5rem;">View My Bookings</a>
+                    </div>
+                `;
+                return;
+            }
+
+            reviews.reverse().forEach(review => {
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <div>
+                            <h3 style="margin-bottom: 0.25rem;">${review.title}</h3>
+                            <p style="color: var(--gray-600); font-size: 0.9rem;">Hotel ID: ${review.hotel_id} • ${formatDate(review.date)}</p>
+                        </div>
+                        <div class="stars" style="color: var(--secondary-color); font-size: 1.25rem;">${getStarRating(review.overall_rating)}</div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1rem; font-size: 0.85rem;">
+                        <div>
+                            <span style="color: var(--gray-600);">Cleanliness:</span>
+                            <span style="color: var(--secondary-color);">${getStarRating(review.cleanliness_rating)}</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--gray-600);">Location:</span>
+                            <span style="color: var(--secondary-color);">${getStarRating(review.location_rating)}</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--gray-600);">Service:</span>
+                            <span style="color: var(--secondary-color);">${getStarRating(review.service_rating)}</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--gray-600);">Value:</span>
+                            <span style="color: var(--secondary-color);">${getStarRating(review.value_rating)}</span>
+                        </div>
+                    </div>
+
+                    <p style="color: var(--gray-700); line-height: 1.6; margin-bottom: 1rem;">${review.content}</p>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--gray-200);">
+                        <span style="color: var(--success-color); font-size: 0.85rem;">✓ Verified Stay</span>
+                        <button class="btn btn-outline" onclick="deleteReview(${review.id})" style="padding: 0.5rem 1rem; font-size: 0.9rem; border-color: var(--danger-color); color: var(--danger-color);">Delete</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        });
+
+        function deleteReview(reviewId) {
+            if (!confirm('Are you sure you want to delete this review?')) {
+                return;
+            }
+
+            let reviews = JSON.parse(localStorage.getItem('userReviews') || '[]');
+            reviews = reviews.filter(r => r.id !== reviewId);
+            localStorage.setItem('userReviews', JSON.stringify(reviews));
+
+            window.location.reload();
+        }
+
+        window.deleteReview = deleteReview;
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Paris",
+    "country": "France",
+    "city": "Paris",
+    "description": "The City of Light awaits with its romantic charm and world-class cuisine",
+    "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800",
+    "starting_price": 120,
+    "is_featured": true
+  },
+  {
+    "id": 2,
+    "name": "Tokyo",
+    "country": "Japan",
+    "city": "Tokyo",
+    "description": "Experience the perfect blend of ancient tradition and modern technology",
+    "image": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800",
+    "starting_price": 180,
+    "is_featured": true
+  },
+  {
+    "id": 3,
+    "name": "New York",
+    "country": "USA",
+    "city": "New York",
+    "description": "The city that never sleeps offers endless entertainment and culture",
+    "image": "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800",
+    "starting_price": 200,
+    "is_featured": true
+  },
+  {
+    "id": 4,
+    "name": "Barcelona",
+    "country": "Spain",
+    "city": "Barcelona",
+    "description": "Stunning architecture, beautiful beaches, and vibrant culture",
+    "image": "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800",
+    "starting_price": 95,
+    "is_featured": true
+  },
+  {
+    "id": 5,
+    "name": "Bali",
+    "country": "Indonesia",
+    "city": "Bali",
+    "description": "Tropical paradise with pristine beaches and ancient temples",
+    "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800",
+    "starting_price": 75,
+    "is_featured": true
+  },
+  {
+    "id": 6,
+    "name": "Dubai",
+    "country": "UAE",
+    "city": "Dubai",
+    "description": "Luxury shopping, ultramodern architecture, and desert adventures",
+    "image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800",
+    "starting_price": 150,
+    "is_featured": true
+  }
+]

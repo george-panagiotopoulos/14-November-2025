@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write Review - TravelHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .review-page { padding: 2rem 0; }
+        .review-form-container { max-width: 800px; margin: 0 auto; background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .hotel-info-banner { display: flex; gap: 1.5rem; padding: 1.5rem; background: var(--gray-50); border-radius: 12px; margin-bottom: 2rem; }
+        .hotel-info-image { width: 150px; height: 100px; object-fit: cover; border-radius: 8px; }
+        .rating-input { display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; }
+        .star-rating { display: flex; gap: 0.25rem; font-size: 2rem; }
+        .star-rating input { display: none; }
+        .star-rating label { cursor: pointer; color: var(--gray-300); transition: color 0.2s; }
+        .star-rating label:hover, .star-rating label:hover ~ label { color: var(--secondary-color); }
+        .star-rating input:checked ~ label { color: var(--secondary-color); }
+        .char-counter { text-align: right; font-size: 0.85rem; color: var(--gray-600); margin-top: 0.25rem; }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">TravelHub</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="search.html">Hotels</a></li>
+                    <li><a href="#" class="hidden" id="my-bookings-link">My Bookings</a></li>
+                    <li id="auth-buttons">
+                        <a href="signin.html" class="btn btn-outline">Sign In</a>
+                    </li>
+                    <li class="user-menu hidden" id="user-menu">
+                        <img src="https://i.pravatar.cc/150?img=33" alt="User" class="user-avatar" id="user-avatar">
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Write Review Page -->
+    <div class="review-page">
+        <div class="container">
+            <h1 style="text-align: center; margin-bottom: 2rem;">Write Your Review</h1>
+
+            <div class="review-form-container">
+                <!-- Hotel Info -->
+                <div class="hotel-info-banner" id="hotel-info">
+                    <img src="" alt="Hotel" class="hotel-info-image" id="hotel-image">
+                    <div>
+                        <h3 id="hotel-name" style="margin-bottom: 0.25rem;"></h3>
+                        <p id="hotel-location" style="color: var(--gray-600); font-size: 0.9rem; margin-bottom: 0.5rem;"></p>
+                        <p style="font-size: 0.85rem; color: var(--gray-600);">Stayed: <span id="stay-dates"></span></p>
+                    </div>
+                </div>
+
+                <!-- Review Form -->
+                <form id="review-form">
+                    <!-- Overall Rating -->
+                    <div class="rating-input">
+                        <label style="font-weight: 600; min-width: 120px;">Overall Rating:</label>
+                        <div class="star-rating" id="overall-rating">
+                            <input type="radio" name="overall" id="overall-5" value="5" required>
+                            <label for="overall-5">★</label>
+                            <input type="radio" name="overall" id="overall-4" value="4">
+                            <label for="overall-4">★</label>
+                            <input type="radio" name="overall" id="overall-3" value="3">
+                            <label for="overall-3">★</label>
+                            <input type="radio" name="overall" id="overall-2" value="2">
+                            <label for="overall-2">★</label>
+                            <input type="radio" name="overall" id="overall-1" value="1">
+                            <label for="overall-1">★</label>
+                        </div>
+                    </div>
+
+                    <!-- Category Ratings -->
+                    <div class="rating-input">
+                        <label style="font-weight: 600; min-width: 120px;">Cleanliness:</label>
+                        <div class="star-rating">
+                            <input type="radio" name="cleanliness" id="clean-5" value="5" required>
+                            <label for="clean-5">★</label>
+                            <input type="radio" name="cleanliness" id="clean-4" value="4">
+                            <label for="clean-4">★</label>
+                            <input type="radio" name="cleanliness" id="clean-3" value="3">
+                            <label for="clean-3">★</label>
+                            <input type="radio" name="cleanliness" id="clean-2" value="2">
+                            <label for="clean-2">★</label>
+                            <input type="radio" name="cleanliness" id="clean-1" value="1">
+                            <label for="clean-1">★</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-input">
+                        <label style="font-weight: 600; min-width: 120px;">Location:</label>
+                        <div class="star-rating">
+                            <input type="radio" name="location" id="loc-5" value="5" required>
+                            <label for="loc-5">★</label>
+                            <input type="radio" name="location" id="loc-4" value="4">
+                            <label for="loc-4">★</label>
+                            <input type="radio" name="location" id="loc-3" value="3">
+                            <label for="loc-3">★</label>
+                            <input type="radio" name="location" id="loc-2" value="2">
+                            <label for="loc-2">★</label>
+                            <input type="radio" name="location" id="loc-1" value="1">
+                            <label for="loc-1">★</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-input">
+                        <label style="font-weight: 600; min-width: 120px;">Service:</label>
+                        <div class="star-rating">
+                            <input type="radio" name="service" id="serv-5" value="5" required>
+                            <label for="serv-5">★</label>
+                            <input type="radio" name="service" id="serv-4" value="4">
+                            <label for="serv-4">★</label>
+                            <input type="radio" name="service" id="serv-3" value="3">
+                            <label for="serv-3">★</label>
+                            <input type="radio" name="service" id="serv-2" value="2">
+                            <label for="serv-2">★</label>
+                            <input type="radio" name="service" id="serv-1" value="1">
+                            <label for="serv-1">★</label>
+                        </div>
+                    </div>
+
+                    <div class="rating-input" style="margin-bottom: 2rem;">
+                        <label style="font-weight: 600; min-width: 120px;">Value for Money:</label>
+                        <div class="star-rating">
+                            <input type="radio" name="value" id="val-5" value="5" required>
+                            <label for="val-5">★</label>
+                            <input type="radio" name="value" id="val-4" value="4">
+                            <label for="val-4">★</label>
+                            <input type="radio" name="value" id="val-3" value="3">
+                            <label for="val-3">★</label>
+                            <input type="radio" name="value" id="val-2" value="2">
+                            <label for="val-2">★</label>
+                            <input type="radio" name="value" id="val-1" value="1">
+                            <label for="val-1">★</label>
+                        </div>
+                    </div>
+
+                    <!-- Review Title -->
+                    <div class="form-group-full">
+                        <label>Review Title</label>
+                        <input type="text" id="review-title" placeholder="Summarize your experience" required maxlength="100">
+                    </div>
+
+                    <!-- Review Content -->
+                    <div class="form-group-full">
+                        <label>Your Review</label>
+                        <textarea id="review-content" rows="8" placeholder="Share your experience with other travelers..." required minlength="50" maxlength="1000" style="width: 100%; padding: 0.75rem; border: 2px solid var(--gray-200); border-radius: 6px; font-family: inherit; resize: vertical;"></textarea>
+                        <div class="char-counter"><span id="char-count">0</span>/1000 characters</div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Review</button>
+                        <a href="bookings.html" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let booking = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!isLoggedIn()) {
+                alert('Please sign in to write a review');
+                window.location.href = 'signin.html';
+                return;
+            }
+
+            // Get booking reference from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingRef = urlParams.get('booking');
+
+            if (!bookingRef) {
+                alert('No booking specified');
+                window.location.href = 'bookings.html';
+                return;
+            }
+
+            // Find booking
+            const bookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
+            booking = bookings.find(b => b.booking_reference === bookingRef);
+
+            if (!booking) {
+                alert('Booking not found');
+                window.location.href = 'bookings.html';
+                return;
+            }
+
+            // Populate hotel info
+            document.getElementById('hotel-image').src = booking.hotel_image;
+            document.getElementById('hotel-name').textContent = booking.hotel_name;
+            document.getElementById('hotel-location').textContent = booking.hotel_location;
+            document.getElementById('stay-dates').textContent = `${formatDate(booking.check_in)} - ${formatDate(booking.check_out)}`;
+
+            // Character counter
+            const reviewContent = document.getElementById('review-content');
+            const charCount = document.getElementById('char-count');
+
+            reviewContent.addEventListener('input', function() {
+                charCount.textContent = this.value.length;
+            });
+
+            // Handle form submission
+            document.getElementById('review-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const user = getCurrentUser();
+
+                const review = {
+                    id: Date.now(),
+                    hotel_id: booking.hotel_id,
+                    booking_reference: booking.booking_reference,
+                    user_name: `${user.first_name} ${user.last_name}`,
+                    user_photo: user.profile_photo,
+                    overall_rating: parseInt(document.querySelector('input[name="overall"]:checked').value),
+                    cleanliness_rating: parseInt(document.querySelector('input[name="cleanliness"]:checked').value),
+                    location_rating: parseInt(document.querySelector('input[name="location"]:checked').value),
+                    service_rating: parseInt(document.querySelector('input[name="service"]:checked').value),
+                    value_rating: parseInt(document.querySelector('input[name="value"]:checked').value),
+                    title: document.getElementById('review-title').value,
+                    content: document.getElementById('review-content').value,
+                    date: new Date().toISOString().split('T')[0],
+                    helpful_count: 0,
+                    verified: true
+                };
+
+                // Save review to localStorage
+                let reviews = JSON.parse(localStorage.getItem('userReviews') || '[]');
+                reviews.push(review);
+                localStorage.setItem('userReviews', JSON.stringify(reviews));
+
+                alert('Thank you for your review! It will be visible to other travelers.');
+                window.location.href = 'my-reviews.html';
+            });
+
+            // Setup star ratings to work in reverse (5 to 1)
+            document.querySelectorAll('.star-rating').forEach(ratingDiv => {
+                const inputs = ratingDiv.querySelectorAll('input');
+                const labels = ratingDiv.querySelectorAll('label');
+
+                labels.forEach((label, index) => {
+                    label.addEventListener('mouseenter', () => {
+                        for (let i = index; i >= 0; i--) {
+                            labels[i].style.color = 'var(--secondary-color)';
+                        }
+                        for (let i = index + 1; i < labels.length; i++) {
+                            labels[i].style.color = 'var(--gray-300)';
+                        }
+                    });
+
+                    label.addEventListener('click', () => {
+                        for (let i = index; i >= 0; i--) {
+                            labels[i].style.color = 'var(--secondary-color)';
+                        }
+                        for (let i = index + 1; i < labels.length; i++) {
+                            labels[i].style.color = 'var(--gray-300)';
+                        }
+                    });
+                });
+
+                ratingDiv.addEventListener('mouseleave', () => {
+                    const checked = ratingDiv.querySelector('input:checked');
+                    if (checked) {
+                        const checkedIndex = Array.from(inputs).indexOf(checked);
+                        for (let i = checkedIndex; i >= 0; i--) {
+                            labels[i].style.color = 'var(--secondary-color)';
+                        }
+                        for (let i = checkedIndex + 1; i < labels.length; i++) {
+                            labels[i].style.color = 'var(--gray-300)';
+                        }
+                    } else {
+                        labels.forEach(l => l.style.color = 'var(--gray-300)');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

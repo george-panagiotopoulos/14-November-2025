@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Details - TravelHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .hotel-details { padding: 2rem 0; }
+        .hotel-layout { display: grid; grid-template-columns: 1fr 380px; gap: 2rem; }
+        .image-gallery { margin-bottom: 2rem; }
+        .main-image { width: 100%; height: 500px; object-fit: cover; border-radius: 12px; cursor: pointer; }
+        .thumbnail-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1rem; }
+        .thumbnail { height: 120px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 3px solid transparent; transition: border-color 0.3s; }
+        .thumbnail:hover, .thumbnail.active { border-color: var(--primary-color); }
+        .booking-widget { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 100px; }
+        .info-section { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 2rem; }
+        .rating-breakdown { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 1.5rem 0; }
+        .rating-item { display: flex; justify-content: space-between; align-items: center; }
+        .rating-bar { flex: 1; height: 8px; background: var(--gray-200); border-radius: 4px; margin: 0 1rem; overflow: hidden; }
+        .rating-fill { height: 100%; background: var(--primary-color); }
+        .room-card { border: 2px solid var(--gray-200); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; display: grid; grid-template-columns: 200px 1fr auto; gap: 1.5rem; align-items: center; }
+        .room-image { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
+        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
+        .lightbox.active { display: flex; }
+        .lightbox-image { max-width: 90%; max-height: 90vh; }
+        .lightbox-close { position: absolute; top: 2rem; right: 2rem; color: white; font-size: 3rem; cursor: pointer; }
+
+        @media (max-width: 968px) {
+            .hotel-layout { grid-template-columns: 1fr; }
+            .booking-widget { position: static; }
+            .room-card { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">TravelHub</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="search.html">Hotels</a></li>
+                    <li><a href="#" class="hidden" id="my-bookings-link">My Bookings</a></li>
+                    <li id="auth-buttons">
+                        <a href="signin.html" class="btn btn-outline">Sign In</a>
+                    </li>
+                    <li class="user-menu hidden" id="user-menu">
+                        <img src="https://i.pravatar.cc/150?img=33" alt="User" class="user-avatar" id="user-avatar">
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hotel Details -->
+    <div class="hotel-details">
+        <div class="container">
+            <div class="hotel-layout">
+                <!-- Main Content -->
+                <div>
+                    <!-- Image Gallery -->
+                    <div class="image-gallery">
+                        <img src="" alt="Hotel" class="main-image" id="main-image">
+                        <div class="thumbnail-strip" id="thumbnail-strip">
+                            <!-- Thumbnails will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Hotel Info -->
+                    <div class="info-section">
+                        <div class="hotel-rating" style="margin-bottom: 1rem;">
+                            <span class="stars" id="hotel-stars"></span>
+                            <span class="guest-rating" id="hotel-rating"></span>
+                        </div>
+                        <h1 id="hotel-name" style="margin-bottom: 0.5rem;"></h1>
+                        <p id="hotel-location" style="color: var(--gray-600); margin-bottom: 1rem;"></p>
+                        <p id="hotel-description" style="line-height: 1.8;"></p>
+                    </div>
+
+                    <!-- Amenities -->
+                    <div class="info-section">
+                        <h2 style="margin-bottom: 1rem;">Amenities</h2>
+                        <div class="amenities" id="hotel-amenities" style="gap: 0.75rem;">
+                            <!-- Amenities will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Important Information -->
+                    <div class="info-section">
+                        <h2 style="margin-bottom: 1rem;">Important Information</h2>
+                        <div style="display: grid; gap: 1rem;">
+                            <div>
+                                <strong>Check-in:</strong> <span id="check-in-time"></span>
+                            </div>
+                            <div>
+                                <strong>Check-out:</strong> <span id="check-out-time"></span>
+                            </div>
+                            <div>
+                                <strong>Cancellation Policy:</strong>
+                                <p id="cancellation-policy" style="margin-top: 0.5rem; color: var(--gray-700);"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Room Types -->
+                    <div class="info-section">
+                        <h2 style="margin-bottom: 1.5rem;">Available Rooms</h2>
+                        <div id="room-types">
+                            <!-- Room cards will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Reviews -->
+                    <div class="info-section">
+                        <h2 style="margin-bottom: 1rem;">Guest Reviews</h2>
+
+                        <!-- Rating Breakdown -->
+                        <div class="rating-breakdown">
+                            <div class="rating-item">
+                                <span>Cleanliness</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill" id="cleanliness-bar"></div>
+                                </div>
+                                <span id="cleanliness-score">0</span>
+                            </div>
+                            <div class="rating-item">
+                                <span>Location</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill" id="location-bar"></div>
+                                </div>
+                                <span id="location-score">0</span>
+                            </div>
+                            <div class="rating-item">
+                                <span>Service</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill" id="service-bar"></div>
+                                </div>
+                                <span id="service-score">0</span>
+                            </div>
+                            <div class="rating-item">
+                                <span>Value</span>
+                                <div class="rating-bar">
+                                    <div class="rating-fill" id="value-bar"></div>
+                                </div>
+                                <span id="value-score">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Reviews List -->
+                        <div id="reviews-list" style="margin-top: 2rem;">
+                            <!-- Reviews will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Widget -->
+                <aside>
+                    <div class="booking-widget">
+                        <div style="text-align: center; margin-bottom: 1.5rem;">
+                            <span style="font-size: 2rem; font-weight: 700; color: var(--primary-color);" id="widget-price">$0</span>
+                            <span style="color: var(--gray-600);">/night</span>
+                        </div>
+
+                        <form id="booking-form">
+                            <div class="form-group-full">
+                                <label>Check-in</label>
+                                <input type="date" id="booking-check-in" required>
+                            </div>
+                            <div class="form-group-full">
+                                <label>Check-out</label>
+                                <input type="date" id="booking-check-out" required>
+                            </div>
+                            <div class="form-group-full">
+                                <label>Guests</label>
+                                <select id="booking-guests" required>
+                                    <option value="1">1 Guest</option>
+                                    <option value="2" selected>2 Guests</option>
+                                    <option value="3">3 Guests</option>
+                                    <option value="4">4 Guests</option>
+                                    <option value="5">5+ Guests</option>
+                                </select>
+                            </div>
+                            <div class="form-group-full">
+                                <label>Room Type</label>
+                                <select id="booking-room-type" required>
+                                    <option value="">Select a room</option>
+                                </select>
+                            </div>
+
+                            <div style="background: var(--gray-50); padding: 1rem; border-radius: 8px; margin: 1.5rem 0;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <span id="price-calculation">$0 × 0 nights</span>
+                                    <span id="subtotal">$0</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--gray-600); font-size: 0.9rem;">
+                                    <span>Taxes & fees</span>
+                                    <span id="taxes">$0</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 2px solid var(--gray-300); font-weight: 700; font-size: 1.1rem;">
+                                    <span>Total</span>
+                                    <span id="total-price">$0</span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-full">Reserve Now</button>
+                            <p style="text-align: center; font-size: 0.85rem; color: var(--gray-600); margin-top: 0.75rem;">You won't be charged yet</p>
+                        </form>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" id="lightbox-close">&times;</span>
+        <img src="" alt="Hotel" class="lightbox-image" id="lightbox-image">
+    </div>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/hotel.js"></script>
+</body>
+</html>
