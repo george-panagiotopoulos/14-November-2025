@@ -1,163 +1,208 @@
-# TravelHub - Travel Portal Application
+# TravelHub - Complete Travel Portal Application
 
-A comprehensive web-based travel booking platform that allows users to search, compare, and book hotels worldwide.
+A full-stack web-based travel booking platform with Django backend and vanilla JavaScript frontend.
 
-## Project Overview
+## Project Status
 
-TravelHub is being developed in phases following a structured approach:
-
-### Phase 1: MVP Implementation
-- **Step 1 (Current)**: Mock User Interface with frontend prototype
-- **Step 2 (Upcoming)**: Backend implementation with Django and SQLite
-
-## Current Features (Mock UI - Phase 1, Step 1)
-
-### User Features
-- ✅ User registration and authentication
-- ✅ User profile management
-- ✅ Search hotels by destination
-- ✅ Advanced filtering (price, rating, amenities, hotel type)
-- ✅ Sort results (price, rating, popularity)
-- ✅ View detailed hotel information
-- ✅ Image gallery with lightbox
-- ✅ Room type selection
-- ✅ Complete booking flow
-- ✅ Booking management (view, cancel)
-- ✅ Review system (write, view, rate)
-- ✅ Responsive design (mobile, tablet, desktop)
-- ✅ **Multilingual support (English & Mandarin Chinese)**
-- ✅ **Language switcher with flag icons**
-
-### Technical Stack (Current)
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript
-- **Data Storage**: Browser localStorage (mock data)
-- **Mock Data**: JSON files for destinations, hotels, reviews, users
-
-## Getting Started
-
-### Prerequisites
-- Python 3.x (for running local web server)
-- Modern web browser
-- Git
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/george-panagiotopoulos/14-November-2025.git
-cd 14-November-2025/travel_portal_ui
-```
-
-2. Start the application using the startup script:
-```bash
-./start.sh
-```
-
-Or manually:
-```bash
-python3 -m http.server 8787
-```
-
-3. Open your browser and navigate to:
-```
-http://localhost:8787
-```
-
-### Demo Account
-Use these credentials to test the application:
-- Email: `demo@example.com`
-- Password: `password123`
+**Phase 1 - Step 1**: ✅ Mock UI Complete
+**Phase 1 - Step 2**: 🔄 Backend Foundation Complete
 
 ## Project Structure
 
 ```
-travel_portal_ui/
-├── index.html              # Home page
-├── search.html             # Hotel search results
-├── hotel.html              # Hotel details
-├── signin.html             # Sign in page
-├── register.html           # Registration page
-├── checkout.html           # Booking checkout
-├── confirmation.html       # Booking confirmation
-├── bookings.html           # User bookings
-├── profile.html            # User profile
-├── write-review.html       # Write review
-├── my-reviews.html         # User reviews
-├── css/
-│   └── style.css          # Main stylesheet
-├── js/
-│   ├── i18n.js            # Internationalization library
-│   ├── main.js            # Core utilities
-│   ├── home.js            # Home page logic
-│   ├── search.js          # Search functionality
-│   ├── hotel.js           # Hotel details
-│   ├── auth.js            # Authentication
-│   └── checkout.js        # Checkout flow
-├── data/
-│   ├── translations/      # Translation files
-│   │   ├── en.json       # English translations
-│   │   └── zh.json       # Mandarin Chinese translations
-│   ├── destinations.json  # Mock destinations
-│   ├── hotels.json        # Mock hotels
-│   ├── reviews.json       # Mock reviews
-│   └── users.json         # Mock users
-├── images/                # Image assets
-├── .env                   # Environment configuration (not in git)
-├── .env.example          # Example environment config
-├── .gitignore            # Git ignore rules
-├── claude.md             # Code preferences & standards
-└── start.sh              # Application startup script
+travel_portal/
+├── travel_portal_ui/          # Frontend (Mock UI - Phase 1.1)
+│   ├── index.html
+│   ├── css/
+│   ├── js/
+│   │   ├── i18n.js           # Internationalization library
+│   │   ├── main.js           # Core utilities
+│   │   └── ...               # Page-specific scripts
+│   └── data/                  # Mock JSON data
+│       └── translations/      # Translation files
+│           ├── en.json       # English translations
+│           └── zh.json       # Mandarin Chinese translations
+│
+├── travel_portal_backend/     # Django Backend (Phase 1.2)
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+│
+├── apps/                      # Django Applications
+│   ├── users/                 # User management & auth
+│   ├── hotels/                # Hotels & destinations
+│   ├── bookings/              # Booking system
+│   └── reviews/               # Review system
+│
+├── tests/                     # Integration tests
+├── requirements.txt
+└── manage.py
 ```
 
-## User Flow
+## Features
 
-1. **Browse**: Visit home page, view featured destinations and hotels
-2. **Search**: Use search widget or navigate to search page
-3. **Filter**: Apply filters to narrow down results
-4. **View Details**: Click on hotel to see full information
-5. **Book**: Select room type, dates, and complete booking
-6. **Manage**: View bookings, cancel if needed
-7. **Review**: Write reviews for past stays
+### Frontend (Mock UI)
+- ✅ User authentication (sign in/register)
+- ✅ Hotel search with advanced filters
+- ✅ Hotel details with booking widget
+- ✅ Complete booking flow
+- ✅ User dashboard (profile, bookings, reviews)
+- ✅ Review system
+- ✅ Responsive design
+- ✅ **Multilingual support (English & Mandarin Chinese)**
+- ✅ **Language switcher with flag icons**
 
-## Design Documentation
+### Backend (Django + SQLite)
+- ✅ Custom User model with profiles
+- ✅ Hotel & destination management
+- ✅ Room types with availability checking
+- ✅ Booking system with auto-generated references
+- ✅ Payment tracking
+- ✅ Review system with auto-verification
+- ✅ Django admin panel configured
+- ✅ Comprehensive test suite (9 tests passing)
 
-See the following files for detailed design specifications:
-- `system_design.md` - High-level system architecture
-- `phase_1.md` - Detailed Phase 1 implementation plan
+## Technology Stack
 
-## Upcoming Features (Phase 1, Step 2)
+**Frontend:**
+- HTML5, CSS3, Vanilla JavaScript
+- LocalStorage for mock data persistence
+- Custom i18n library for multilingual support
 
-- Django backend with REST API
-- SQLite database
-- Real authentication and authorization
-- Server-side search and filtering
-- Email notifications
-- Payment gateway integration
-- Admin panel for hotel management
-
-## Development
-
-### Branches
-- `main` - Stable production-ready code
-- `development` - Active development branch
-
-### Contributing
-This is currently a learning/demonstration project.
-
-## Technologies
-
-### Current (Phase 1, Step 1)
-- HTML5
-- CSS3 (Custom styling with CSS Variables)
-- Vanilla JavaScript (ES6+)
-- LocalStorage API
-
-### Planned (Phase 1, Step 2)
-- Python 3.10+
-- Django 5.0+
-- Django REST Framework
+**Backend:**
+- Python 3.12
+- Django 5.2.8
+- Django REST Framework 3.16.1
 - SQLite3
 - Pillow (image handling)
+
+## Getting Started
+
+### Prerequisites
+- Python 3.10+
+- Modern web browser
+
+### Installation
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/george-panagiotopoulos/14-November-2025.git
+cd 14-November-2025
+```
+
+2. **Set up Python environment:**
+```bash
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+3. **Run database migrations:**
+```bash
+python manage.py migrate
+```
+
+4. **Create superuser (optional):**
+```bash
+python manage.py createsuperuser
+# Username: admin
+# Password: admin123 (or your choice)
+```
+
+5. **Start the Django development server:**
+```bash
+python manage.py runserver 8000
+```
+
+6. **In a separate terminal, start the frontend server:**
+```bash
+cd travel_portal_ui
+python3 -m http.server 8787
+```
+
+7. **Access the application:**
+- Frontend: http://localhost:8787
+- Django Admin: http://localhost:8000/admin
+- API (future): http://localhost:8000/api
+
+## Testing
+
+Run the test suite:
+```bash
+python manage.py test
+```
+
+Current test coverage:
+- ✅ User model tests
+- ✅ Hotel and destination relationships
+- ✅ Booking creation and validation
+- ✅ Room availability checking
+- ✅ Review auto-verification
+- ✅ Payment linking
+- ✅ Rating calculations
+
+All 9 tests passing!
+
+## Demo Credentials
+
+**Frontend Mock Account:**
+- Email: demo@example.com
+- Password: password123
+
+**Django Admin:**
+- Username: admin
+- Password: admin123
+
+## Database Schema
+
+### Users App
+- **User**: Custom user model with phone, profile photo
+- **UserPreference**: User settings and preferences
+- **SavedSearch**: Saved search history
+
+### Hotels App
+- **Destination**: Cities and countries
+- **Hotel**: Hotel listings with star ratings
+- **HotelImage**: Multiple images per hotel
+- **Amenity**: Reusable amenities
+- **RoomType**: Different room categories with pricing
+
+### Bookings App
+- **Booking**: Booking records with auto-generated references
+- **Payment**: Payment transactions linked to bookings
+
+### Reviews App
+- **Review**: Hotel reviews with 5-category ratings
+- **ReviewPhoto**: Optional review images
+- **ReviewVote**: Helpful/not helpful votes
+
+## API Endpoints (Coming Soon)
+
+Phase 1 - Step 3 will implement REST API endpoints for:
+- User authentication and registration
+- Hotel search and filtering
+- Booking creation and management
+- Review submission and retrieval
+
+## Development Roadmap
+
+### Completed
+- [x] Phase 1.1: Frontend mock UI with all pages
+- [x] Phase 1.1b: Multilingual support (English & Mandarin Chinese)
+- [x] Phase 1.2a: Django project setup
+- [x] Phase 1.2b: Database models
+- [x] Phase 1.2c: Migrations and database creation
+- [x] Phase 1.2d: Admin panel configuration
+- [x] Phase 1.2e: Automated tests
+
+### Next Steps
+- [ ] Phase 1.2f: REST API serializers
+- [ ] Phase 1.2g: API views and endpoints
+- [ ] Phase 1.2h: Sample data population
+- [ ] Phase 1.2i: Frontend-backend integration
+- [ ] Phase 2: Flight booking integration
+- [ ] Phase 3: Payment gateway (Stripe)
+- [ ] Phase 4: Email notifications
 
 ## Browser Support
 
@@ -166,11 +211,15 @@ This is currently a learning/demonstration project.
 - Safari (latest)
 - Edge (latest)
 
+## Contributing
+
+This is a learning/demonstration project.
+
 ## License
 
-This project is for educational purposes.
+Educational purposes.
 
-## Contact
+## Author
 
 George Panagiotopoulos
 - GitHub: [@george-panagiotopoulos](https://github.com/george-panagiotopoulos)
@@ -178,5 +227,8 @@ George Panagiotopoulos
 ## Acknowledgments
 
 - Design inspiration from modern travel booking platforms
-- Unsplash for placeholder images
+- Django documentation
+- Django REST Framework
+- Unsplash for images
 - Pravatar for user avatars
+- Claude Code for development assistance

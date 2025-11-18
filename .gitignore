@@ -61,7 +61,6 @@ pip-delete-this-directory.txt
 .pytest_cache/
 
 # Django
-*.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
@@ -94,7 +93,6 @@ coverage.xml
 # Backup files
 *.bak
 *.backup
-*~
 
 # Compiled files
 *.com
@@ -102,7 +100,6 @@ coverage.xml
 *.dll
 *.exe
 *.o
-*.so
 
 # Security and credentials
 *.pem
@@ -110,3 +107,6 @@ coverage.xml
 *.cert
 credentials.json
 secrets.json
+
+# Claude
+.claude/
